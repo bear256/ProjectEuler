@@ -4,41 +4,39 @@ import (
 	"fmt"
 )
 
-func isAbundant(n int) bool {
-	prod := 1
-	for k := 2; k*k <= n; k++ {
-		p := 1
-		for n%k == 0 {
-			p = p*k + 1
-			n /= k
+func sumDivisors(n int) int {
+	sum := 1
+	for i := 2; i*i <= n; i++ {
+		if n%i==0 {
+			j := n/i
+			if i!= j {
+				sum += i + n/i
+			} else {
+				sum += i
+			}
+			
 		}
-		prod *= p
 	}
-	if n > 1 {
-		prod *= 1 + n
-	}
-	return prod > 2*n+1
+	return sum
 }
 
 func main() {
-	sum := 0
 	abundants := []int{}
-	isAbundants := [28123*2 + 1]bool{false}
-	fmt.Println(isAbundant(12), isAbundant(18))
-	for n := 2; n <= 28123; n++ {
-		isAbundants[n] = isAbundant(n)
-		if isAbundants[n] {
+	for n := 1; n <= 28123; n++ {
+		if sumDivisors(n) > n {
 			abundants = append(abundants, n)
 		}
 	}
+	isAbundant := [28123*2+1]bool{false}
 	for i := 0; i < len(abundants); i++ {
-		for j := 0; j <= i; j++ {
+		for j := 0; j <= i; j++{
 			idx := abundants[i] + abundants[j]
-			isAbundants[idx] = true
+			isAbundant[idx] = true
 		}
 	}
+	sum := 0
 	for n := 1; n <= 28123; n++ {
-		if !isAbundants[n] {
+		if !isAbundant[n] {
 			sum += n
 		}
 	}
