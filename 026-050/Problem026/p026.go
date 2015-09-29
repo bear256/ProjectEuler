@@ -5,15 +5,18 @@ import (
 )
 
 func length(d int) int {
-	t := 10
-	decs := []int{}
 	l := 0
+	t := 10
+	for ; t < d; {
+		t *=10
+	}
+	rems := []int{}
 	flag := false
-	for i := 0;; i++{
-		digit := t/d
-		// fmt.Println(digit, decs)
-		for idx, dec := range decs {
-			if dec == digit {
+	for i :=0; ; i++ {
+		r := t%d
+		// fmt.Println(i, r, t/d)
+		for idx, rem := range rems {
+			if r == rem {
 				l = i - idx
 				flag = true
 				break
@@ -22,8 +25,8 @@ func length(d int) int {
 		if flag {
 			break
 		}
-		decs = append(decs, digit)
-		t = t%d*10
+		rems = append(rems, r)
+		t = r*10
 	}
 	return l
 }
@@ -37,5 +40,5 @@ func main() {
 			n = d
 		}
 	}
-	fmt.Println(max, n)
+	fmt.Println(n)
 }
